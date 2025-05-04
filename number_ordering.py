@@ -12,82 +12,53 @@ def intro_prompt():
     3. You must fill all the slots to win. 
     4. Have fun!""")
 
-def create_board(size = 10):
-    return [" "] * size
+def create_board():
+    board = [0] *10
+    #print(board)
+    return board
 
-def display_board(board):
-    counter = 0
-    for i in board:
-        print(f"{counter+1}. {board[counter]}")
-        counter+=1
-
-def draw_number(number_list):
-    if number_list == 0:  #initially check if there is anything left inside the number list
-        return None
-    
-    number = random.choice(number_list) #gives us the random number
-    number_list.remove(number) #removes the used number from the list
-
+def random_number():
+    number = random.randint(1,100)
     return number
 
 def place_number(board, num):
-
+    placement_tracker = 0
+    
     while True:
-        print(f"Place the number {num}")
-        user_input = input("Enter index or quit to exit: ")
         
-        if user_input.lower() == "quit": #checking if they want to quit
-            print("Thanks for playing!")
-            sys.exit()
-
-        try:
-            index = int(input(user_input))
-
-            if 0 < index < len(board): #checkingfor valid range 
-                board[index-1] = num
-                return board
+        place = input(f"Place {num} into an empty slot: ")
+        if place.isdigit():
+            place = int(place)
+            if place < 1 or place > 10:
+                print("Index out of range.")  
+            elif board[place-1] != 0:
+                print("You already filled that slot.")
             else:
-                print("Index out of range.")
-        except ValueError:
-            print("Invalid input.")
-
-    
-    '''try:
-        index = int(input("Enter index: "))
-        print(f"this is the intex I'm seeing {index}")
-        if 0 <= index < len(board):
-            if board[index] == " ":
-                board[index] = num
-            else:
-                print("That spot is already taken.")
+                board[place-1] = num
+                placement_tracker +=1
+                break
+                  
         else:
-            print("Index is out of range.")
-
-    except ValueError:
-        if index == "quit":
-            sys.exit()
-        
-        print("Not a number. Try again.")'''
+            print("Invalid input.")
     
-    #return board
-
-
-
+    print(board)
+    return board
       
+#def display_board(board):
 
 
 def main():
-    numbers = list(range(1,101))
-    game_board = create_board()
-    
+    answer = "y"
+
     intro_prompt()
+    main_board = create_board()
     
     counter = 0
-    while True:
-        num = draw_number(numbers)
-        display_board(game_board)
-        game_board = place_number(game_board, num)
-        
+    while counter < 10:
+        rand_num = random_number()
+        place_number(main_board, rand_num)
+        counter+=1
+       
 
 if __name__ == "__main__":
     main()
