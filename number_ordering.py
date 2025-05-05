@@ -21,8 +21,11 @@ def random_number():
     number = random.randint(1,100)
     return number
 
-def place_number(board, num):
-    placement_tracker = 0
+def place_number(board, num, counter):
+    
+    upper_check =  0
+    lower_check = 0
+    
     
     while True:
         
@@ -34,12 +37,42 @@ def place_number(board, num):
             elif board[place-1] != 0:
                 print("You already filled that slot.")
             else:
-                board[place-1] = num
-                placement_tracker +=1
-                break
-                  
+                if counter > 0:
+                    for i in range(place, len(board)):
+                        if board[i] == 0:
+                            continue
+                        elif board[place] > board[i]:
+                            print("That value is too large to be placed there.")
+                            break
+                        else:
+                            lower_check = 1
+                            break
+
+                    for i in range(place, 0, -1):
+                        if board[i] == 0:
+                            continue
+                        elif board[place] < board[i]:
+                            print("That value is too small to be placed there.")
+                            break    
+                        else:
+                            upper_check = 1
+                            break
+                    
+                    
+                else: 
+                    board[place-1] = num
+                    print("first case")
+                    break
         else:
             print("Invalid input.")
+        
+        if lower_check == 1 and upper_check == 1:
+            board[place-1] = num
+            lower_check = 0
+            upper_check = 0
+            print("upper lower check")
+            break
+        
     
     print(board)
     return board
@@ -53,10 +86,11 @@ def main():
     intro_prompt()
     main_board = create_board()
     
+    global counter
     counter = 0
-    while counter < 10:
+    while counter < len(main_board):
         rand_num = random_number()
-        place_number(main_board, rand_num)
+        place_number(main_board, rand_num, counter)
         counter+=1
        
 
