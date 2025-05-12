@@ -38,10 +38,13 @@ def place_number(board, num, counter):
                 print("You already filled that slot.")
             else:
                 if counter > 0:
-                    for i in range(place, len(board)):
+                    for i in range(0, len(board)):
+                        if place > i:
+                            if num < board[i]
+                    '''for i in range(place, len(board)):
                         if board[i] == 0:
                             continue
-                        elif board[place] > board[i]:
+                        elif num > board[i]:
                             print("That value is too large to be placed there.")
                             break
                         else:
@@ -51,12 +54,12 @@ def place_number(board, num, counter):
                     for i in range(place, 0, -1):
                         if board[i] == 0:
                             continue
-                        elif board[place] < board[i]:
+                        elif num < board[i]:
                             print("That value is too small to be placed there.")
                             break    
                         else:
                             upper_check = 1
-                            break
+                            break'''
                     
                     
                 else: 
